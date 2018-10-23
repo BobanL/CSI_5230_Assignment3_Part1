@@ -1,0 +1,7 @@
+<resources>
+    <declare-styleable name="Price">
+        <attr name="priceValue" format="string" />
+        <attr name="priceColor" format="color" />
+        <attr name="priceHeight" format="integer" />
+    </declare-styleable>
+</resources>
