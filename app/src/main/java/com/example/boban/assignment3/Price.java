@@ -8,14 +8,16 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 public class Price extends ConstraintLayout {
     TextView priceText = null;
-    Button plusButton, minusButton, buttonX1, buttonX5, buttonX10, buttonX100 = null;
+    Button plusButton, minusButton = null;
+    RadioButton buttonX1, buttonX5, buttonX10, buttonX100, buttonX500 = null;
     private String priceValue;
     private int modifier = 1;
-    private int price = 0;
+    private double price = 0;
     private int priceColor = Color.RED;
     private int priceHeight = 0;
     private View.OnClickListener modifierOnClickListener = new View.OnClickListener() {
@@ -43,26 +45,29 @@ public class Price extends ConstraintLayout {
         priceText.setText(getPriceValue());
         plusButton = container.findViewById(R.id.buttonPlus);
         minusButton = container.findViewById(R.id.buttonMinus);
-        buttonX1 = container.findViewById(R.id.buttonX1);
-        buttonX5 = container.findViewById(R.id.buttonX5);
-        buttonX10 = container.findViewById(R.id.buttonX10);
-        buttonX100 = container.findViewById(R.id.buttonX100);
+        buttonX1 = container.findViewById(R.id.radioButton);
+        buttonX5 = container.findViewById(R.id.radioButton2);
+        buttonX10 = container.findViewById(R.id.radioButton3);
+        buttonX100 = container.findViewById(R.id.radioButton4);
+        buttonX500 = container.findViewById(R.id.radioButton5);
 
         buttonX1.setTag(1);
         buttonX5.setTag(5);
-        buttonX10.setTag(10);
+        buttonX10.setTag(25);
         buttonX100.setTag(100);
+        buttonX500.setTag(500);
 
         buttonX1.setOnClickListener(modifierOnClickListener);
         buttonX5.setOnClickListener(modifierOnClickListener);
         buttonX10.setOnClickListener(modifierOnClickListener);
         buttonX100.setOnClickListener(modifierOnClickListener);
+        buttonX500.setOnClickListener(modifierOnClickListener);
 
         plusButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                price = Integer.parseInt(getPriceValue());
-                String priceNew = Integer.toString(price + modifier);
+                price = Double.parseDouble(getPriceValue());
+                String priceNew = String.format("%.2f", price + .01 * modifier);
                 priceText.setText(priceNew);
                 setPriceValue(priceNew);
             }
@@ -70,8 +75,8 @@ public class Price extends ConstraintLayout {
         minusButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                price = Integer.parseInt(getPriceValue());
-                String priceNew = Integer.toString(price - modifier);
+                price = Double.parseDouble(getPriceValue());
+                String priceNew = String.format("%.2f", price - .01 * modifier);
                 priceText.setText(priceNew);
                 setPriceValue(priceNew);
             }
@@ -83,7 +88,7 @@ public class Price extends ConstraintLayout {
         init(attrs, defStyle);
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
